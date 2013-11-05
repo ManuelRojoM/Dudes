@@ -1,0 +1,89 @@
+/*
+ * jQuery quote-slide v2.0
+ * http://www.woothemes.com/quote-slide/
+ *
+ * Copyright 2012 WooThemes
+ * Free to use under the GPLv2 license.
+ * http://www.gnu.org/licenses/gpl-2.0.html
+ *
+ * Contributing author: Tyler Smith (@mbmufffin)
+ */
+
+ 
+/* Browser Resets */
+.flex-container a:active,
+.quote-slide a:active,
+.flex-container a:focus,
+.quote-slide a:focus  {outline: none;}
+.slides,
+.quote-slide .flex-control-nav,
+.quote-slide .flex-direction-nav {margin: 0; padding: 0; list-style: none;} 
+
+/* quote-slide Necessary Styles
+*********************************/ 
+.quote-slide {margin: 0; padding: 0;}
+.quote-slide .slides > li {display: none; -webkit-backface-visibility: hidden;} /* Hide the slides before the JS is loaded. Avoids image jumping */
+.quote-slide .slides li {width:100%;} /* Hide the slides before the JS is loaded. Avoids image jumping */
+.quote-slide .slides img {width: 100%; display: block;}
+.flex-pauseplay span {text-transform: capitalize;}
+
+/* Clearfix for the .slides element */
+.slides:after {content: "."; display: block; clear: both; visibility: hidden; line-height: 0; height: 0;} 
+html[xmlns] .slides {display: block;} 
+* html .slides {height: 1%;}
+
+/* No JavaScript Fallback */
+/* If you are not using another script, such as Modernizr, make sure you
+ * include js that eliminates this class on page load */
+.no-js .slides > li:first-child {display: block;}
+
+
+/* quote-slide Default Theme
+*********************************/
+.quote-slide {margin: 0 0 0; } 
+.quote-slide .flex-viewport {max-height: 2000px; -webkit-transition: all 1s ease; -moz-transition: all 1s ease; transition: all 1s ease;}
+.loading .flex-viewport {max-height: 300px;}
+.quote-slide .slides {zoom: 1;}
+
+.carousel li {margin-right: 0px}
+
+/* Direction Nav */
+.quote-slide .flex-direction-nav {*height: 0; z-index:8888;}
+/* .flex-direction-nav a {z-index:88888; width: 30px; height: 30px; margin: -24px 0 0 0; display: block; background: url(../img/bg_direction_nav.png) no-repeat 0 0; position: absolute; top: 50%; z-index: 10; cursor: pointer;  opacity: 0; -webkit-transition: all .3s ease;} */
+.quote-slide .flex-direction-nav .flex-next {background-position: 190% 50%; right: 12px; }
+
+.quote-slide .flex-direction-nav .flex-prev {left: 28px;}
+.quote-slide:hover .flex-next {opacity: 0.8; right: 12px;}
+.quote-slide:hover .flex-prev {opacity: 0.8; left: 28px;}
+.quote-slide:hover .flex-next:hover, .quote-slide:hover .flex-prev:hover {opacity: 1;}
+.quote-slide .flex-direction-nav .flex-disabled {opacity: .3!important; filter:alpha(opacity=30); cursor: default;}
+
+/* Control Nav */
+.quote-slide .flex-control-nav {width: 100%; position: absolute; bottom: -40px; text-align: center; display:none; }
+.quote-slide .flex-control-nav li {margin: 0 6px; zoom: 1; *display: none; display:none;}
+.quote-slide .flex-control-paging li a {width: 11px; height: 11px; display: block; background: #666; background: rgba(0,0,0,0.5); cursor: pointer; text-indent: -9999px; -webkit-border-radius: 20px; -moz-border-radius: 20px; -o-border-radius: 20px; border-radius: 20px; box-shadow: inset 0 0 3px rgba(0,0,0,0.3); display:none;}
+.quote-slide .flex-control-paging li a:hover { background: #333; background: rgba(0,0,0,0.7); display:none; }
+.quote-slide .flex-control-paging li a.flex-active { background: #000; background: rgba(0,0,0,0.9); cursor: default; display:none;}
+
+.quote-slide .flex-control-thumbs {margin: 5px 0 0; position: static; overflow: hidden; display:none;}
+.quote-slide .flex-control-thumbs li {width: 25%; float: left; margin: 0; display:none;}
+.quote-slide .flex-control-thumbs img {width: 100%; display: block; opacity: .7; cursor: pointer; display:none;}
+.quote-slide .flex-control-thumbs img:hover {opacity: 1; display:none;}
+.quote-slide .flex-control-thumbs .flex-active {opacity: 1; cursor: default; display:none;}
+
+.quote-slide .flex-caption{padding: 0 0; position:absolute; width:100%; top:50%; margin-top:-119px;}
+.quote-slide .flex-caption h1{
+padding:4.4% 10%;
+margin:5px 0;
+}
+
+.quote-slide .main-caption{
+	height:auto;
+	font-weight:normal;
+	text-decoration:none;
+	margin:0 auto;
+	width:100%;
+	max-width:1152px;
+	border-top:1px solid #fff;
+	position:relative;
+}

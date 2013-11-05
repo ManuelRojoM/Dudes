@@ -1,0 +1,49 @@
+.widget-wrapper{
+	width:27.9%;
+	height:auto;
+	margin:0 2.08%;	
+    float:left;
+}
+.widget-wrapper-small{
+	width:13.19%;
+	height:auto;
+	margin:0 2.08%;	
+    float:left;
+}
+.widget-wrapper h3, .widget-wrapper-small h3{
+	line-height:24px;
+	font-weight:200;
+	font-size:24px;
+	padding:0;
+	margin:0 0 21px 0;
+    font-family:"Roboto"
+}
+.widget-wrapper img{
+width:100%;
+}
+.widget-wrapper p{
+margin-top:24px;   
+font-family: 'Lato', sans-serif;
+font-weight:400;
+}
+.widget-wrapper form{
+ margin:24px 0 0 0;
+    padding:0;
+    position:relative;
+}
+.permalink, .support{
+ margin-top:24px;   
+}
+.permalink li a, .support li a{
+    color:#828282;
+}
+
+.sidebar  .widget-wrapper{
+width: 100%;
+max-width: none;
+height: auto;
+margin: 0 auto 20px auto;
+float: none;
+
+}
+

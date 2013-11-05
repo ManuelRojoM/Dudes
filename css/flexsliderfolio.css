@@ -1,0 +1,106 @@
+/*
+ * jQuery flexsliderfolio v2.0
+ * http://www.woothemes.com/flexsliderfolio/
+ *
+ * Copyright 2012 WooThemes
+ * Free to use under the GPLv2 license.
+ * http://www.gnu.org/licenses/gpl-2.0.html
+ *
+ * Contributing author: Tyler Smith (@mbmufffin)
+ */
+
+ 
+/* Browser Resets */
+.flex-container a:active,
+.flexsliderfolio a:active,
+.flex-container a:focus,
+.flexsliderfolio a:focus  {outline: none;}
+.flexsliderfolio .slides,
+.flexsliderfolio .flex-control-nav,
+.flexsliderfolio .flex-direction-nav {margin: 0; padding: 0; list-style: none;} 
+
+/* flexsliderfolio Necessary Styles
+*********************************/ 
+.flexsliderfolio {margin: 0; padding: 0;}
+.flexsliderfolio .slides > li {display: none; -webkit-backface-visibility: hidden;} /* Hide the slides before the JS is loaded. Avoids image jumping */
+.flexsliderfolio .slides img {width: 100%; display: block;}
+.flexsliderfolio .flex-pauseplay span {text-transform: capitalize;}
+
+/* Clearfix for the .slides element */
+.flexsliderfolio .slides:after {content: "."; display: block; clear: both; visibility: hidden; line-height: 0; height: 0;} 
+html[xmlns] .slides {display: block;} 
+* html .slides {height: 1%;}
+
+/* No JavaScript Fallback */
+/* If you are not using another script, such as Modernizr, make sure you
+ * include js that eliminates this class on page load */
+.no-js .slides > li:first-child {display: block;}
+
+
+/* flexsliderfolio Default Theme
+*********************************/
+.flexsliderfolio {margin:0 0 40px 0; background: #fff; position: relative; zoom: 1; z-index:9999;}
+.flexsliderfolio .flex-viewport {max-height: 2000px; -webkit-transition: all 1s ease; -moz-transition: all 1s ease; transition: all 1s ease;}
+.loading .flex-viewport {max-height: 300px;}
+.flexsliderfolio .slides {zoom: 1;}
+
+.flexsliderfolio .carousel li {margin-right: 5px}
+
+/* Direction Nav */
+.flexsliderfolio .flex-direction-nav {*height: 0;}
+
+.flexsliderfolio .flex-direction-nav .flex-next {background-position: -28px 8px; right: 0px;}
+.flexsliderfolio .flex-direction-nav .flex-prev {left: 0px;}
+.flexsliderfolio:hover .flexsliderfolio .flex-next {opacity: 0.8; right: 0px;}
+.flexsliderfolio:hover .flex-prev {opacity: 0.8; left: 0px;}
+.flexsliderfolio:hover .flex-next:hover, .flexsliderfolio:hover .flex-prev:hover {opacity: 1;}
+.flexsliderfolio:hover .flex-next:hover{opacity: 1; background-position: -28px 8px;}
+.flex-direction-nav .flex-disabled {opacity: .3!important; filter:alpha(opacity=30); cursor: default;}
+
+
+/* Control Nav */
+.flexsliderfolio .flex-control-nav {width: 100%; position: absolute; bottom: -40px; text-align: center;}
+.flexsliderfolio .flex-control-nav li {margin: 0 6px; display: inline-block; zoom: 1; *display: inline;}
+
+
+.flexsliderfolio .flex-control-thumbs {margin: 5px 0 0; position: static; overflow: hidden;}
+.flexsliderfolio .flex-control-thumbs li {width: 25%; float: left; margin: 0;}
+.flexsliderfolio .flex-control-thumbs img {width: 100%; display: block; opacity: .7; cursor: pointer;}
+.flexsliderfolio .flex-control-thumbs img:hover {opacity: 1;}
+.flexsliderfolio .flex-control-thumbs .flex-active {opacity: 1; cursor: default;}
+.flexsliderfolio .flex-caption{
+ position:absolute;
+    top:94px;
+    width:100%;
+    height:100%;
+}
+.flexsliderfolio .main-caption{
+    font-family:"Roboto";
+ width:100%;
+    max-width:1200px;
+    margin:0 auto;
+}
+.flexsliderfolio .main-caption h1{
+    font-size:48px;
+ font-weight:300;  
+    margin:69px 0 0 0;
+}
+.flexsliderfolio .main-caption h2{
+    font-family:"Roboto";
+    font-size:36px;
+ font-weight:300;   
+    line-height:48px ;
+}
+@media screen and (max-width: 860px) {
+ .flexsliderfolio .flex-direction-nav .flex-prev {opacity: 1; left: 0;}
+ .flexsliderfolio .flex-direction-nav .flex-next {opacity: 1; right: 0;}
+.flexsliderfolio .flex-caption{
+ position:relative;
+        background:#252525;
+        top:0;
+        
+    }
+  .flexsliderfolio .wrapp-nav{
+     top: 20.3%;   
+    }
+}
