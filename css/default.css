@@ -131,7 +131,7 @@ background:rgba(0,0,0,.52);
 }
 /*color*/
 .color-1{
-  color:#3f3f3f;
+  color: white;
 }
 .color-100{
 color:#e5e5e5;
@@ -178,8 +178,8 @@ padding:24px;
 }
 .captionBg2{
 display:table;
-background:rgba(41,204,115,0.75);
-border-left:8px solid #050505;
+background: rgba(0,0,0,0.75);
+border-left:8px solid #7f7f7f;
 padding:24px;
 }
 .iconDefSmall {

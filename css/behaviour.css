@@ -24,12 +24,12 @@ text-align:left;
 padding-right:24px;
 }
 .nav{
-position:absolute;
-top:34px;
-/* height:71px; */
-width:100%;
-
-z-index:888;
+	position:absolute;
+	top:34px;
+	/* height:71px; */
+	width:100%;
+	
+	z-index:888;
 }
 #nav a:hover{
     background:#7f7f7f;
