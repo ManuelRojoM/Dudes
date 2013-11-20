@@ -84,7 +84,7 @@ padding:0;
 
 }
 section{
-padding:96px 0;   
+padding:26px 0;   
 
 }
 .section-scnd{
@@ -692,7 +692,6 @@ text-align:left;
 }
 
 .section {
-
 padding: 0;
 }
 .section p:last-child {
@@ -797,10 +796,10 @@ text-align:center;
 }
 
 .service-feature{
-width:155px;
-height:155px;
+width:105px;
+height:105px;
 position:relative;
-margin: -6px auto -10px auto;
+margin: -6px auto -6px auto;
 }
 .featur-position{
 position:absolute;
@@ -815,7 +814,9 @@ background: url('../img/Gui-2.png') no-repeat;
 display:block;
 }
 .icon-feature-a{
-background: url('../img/icon-feature-a.png') no-repeat;
+	background-image: url('../img/icon-feature-a.png');
+    	background-size: cover;
+    	background-repeat: no-repeat;
 transition:.5s;   
 }
 .icon-feature-a:hover{
@@ -823,7 +824,9 @@ transition:.5s;
 	transition:.5s;   
 }
 .icon-feature-b{
-background: url('../img/icon-feature-b.png') no-repeat; 
+	background-image: url('../img/icon-feature-b.png');
+    	background-size: cover;
+    	background-repeat: no-repeat;
 transition:.5s;     
 }
 .icon-feature-b:hover{
@@ -831,7 +834,9 @@ transition:.5s;
 	transition:.5s;   
 }
 .icon-feature-c{
-background: url('../img/icon-feature-c.png') no-repeat; 
+	background-image: url('../img/icon-feature-c.png');
+    	background-size: cover;
+    	background-repeat: no-repeat;
 transition:.5s;     
 }
 .icon-feature-c:hover{
@@ -839,7 +844,9 @@ transition:.5s;
 	transition:.5s;   
 }
 .icon-feature-d{
-background: url('../img/icon-feature-d.png') no-repeat;  
+	background-image: url('../img/icon-feature-d.png');
+    	background-size: cover;
+    	background-repeat: no-repeat;  
 transition:.5s;    
 }
 .icon-feature-d:hover{
@@ -847,7 +854,9 @@ transition:.5s;
 	transition:.5s;   
 }
 .icon-feature-e{
-background: url('../img/icon-feature-e.png') no-repeat; 
+	background-image: url('../img/icon-feature-e.png');
+    	background-size: cover;
+    	background-repeat: no-repeat;
 transition:.5s;     
 }
 .icon-feature-e:hover{
@@ -855,7 +864,9 @@ transition:.5s;
 	transition:.5s;   
 }
 .icon-feature-f{
-background: url('../img/icon-feature-f.png') no-repeat;
+	background-image: url('../img/icon-feature-f.png');
+    	background-size: cover;
+    	background-repeat: no-repeat;
 transition:.5s;      
 }
 .icon-feature-f:hover{

@@ -1,6 +1,6 @@
 /*background*/
 .bg-1{
-background:#7f7f7f;
+	background:url('../img/backgrey.jpg') repeat;
 }
 .bg-color{
 background-color:#522525;
