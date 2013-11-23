@@ -6,6 +6,9 @@
 	$my_url = "http://localhost:8888/index.php";
 	$access_token = "CAACEdEose0cBADw2ib68j6XDggRPTiGKg8GZBppsApRxlJeyRLEiB4ttrXP2xZC2JZAtOFcYDgMqkZB0O3G5QMxf3vvuMgekjqAeUuRGBICWnIn2TmSZC1mHBX30c0CsEKzMMARZAtdfM15qoseQJKUJsuMqqqy7AkLYcRSDZBxlzI4gZAs3FpArhl1TDlKaGAvsSMRKVXXp1gZDZD";
 	$code = $_REQUEST["code"];
+	$pics = array();
+	$links = array();
+	$posts = array();
 	// If we get a code, it means that we have re-authed the user 
 	//and can get a valid access_token. 
 	if (isset($code)) {
@@ -32,24 +35,35 @@
 				$dialog_url= "https://www.facebook.com/dialog/oauth?"
 				. "client_id=" . $app_id 
 					. "&redirect_uri=" . urlencode($my_url);
+				echo("<script> top.location.href='" . $dialog_url 
+					. "'</script>");
 			}
 			else {
 			}
 		} 
 		else {
 			$json = file_get_contents('https://graph.facebook.com/losdudesmx/posts?limit=14&access_token='.$access_token);
-			$mainjson = json_decode(utf8_encode($json));
+			$mainjson = json_decode(utf8_decode($json));
 			$contador = 0;
-			foreach ($json->data as $data) {	
+			foreach ($mainjson->data as $data) {
 							$message = $data->message;
 							$picture = $data->picture;
+							$linktemp = $data->link;
+
+							$linkposarr = $data->actions;
+							$secar = $linkposarr[0];
+							foreach ($linkposarr as $linkpos){
+								if($contador++ % 2 == 0)
+									$posts[] = $linkpos->link;
+							}
+
 							$findme   = 'http%3A'; // http: no https :3
 							$pos = strpos($picture, $findme);
 							$newpic = substr($picture, $pos);
-							
-							echo '<script>document.getElementById("post1").src=http://placehold.it/200x200;</script>'
+							$pics[] = urldecode($newpic);
+							$links[] = urldecode($linktemp);
 						}
-			
+
 		}
 		function curl_get_file_contents($URL) {
 			$c = curl_init();
@@ -61,8 +75,7 @@
 			if ($contents) return $contents;
 			else return FALSE;
 		}
-?>
-<!DOCTYPE html>
+		echo '<!DOCTYPE html>
 <html lang= "es">
 	<head>
 		<title>Los Dudes</title>
@@ -85,11 +98,11 @@
 		<link rel="stylesheet" href="css/prettyPhoto.css" type="text/css" media="screen" />
 		<link rel="stylesheet" href="css/jquery.minicolors.css" type="text/css" media="screen" />
 		<link rel="stylesheet" href="css/jquery.jscrollpane.css" type="text/css" media="screen" />
-		<link href='http://fonts.googleapis.com/css?family=Roboto+Slab:300,100,400,700' rel='stylesheet' type='text/css'>
-		<link href='http://fonts.googleapis.com/css?family=Roboto:300,100,400,700' rel='stylesheet' type='text/css'>
-		<link href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,400,300,700' rel='stylesheet' type='text/css'>
-		<link href='http://fonts.googleapis.com/css?family=Open+Sans+Condensed:300,700,300italic' rel='stylesheet' type='text/css'>
-		<link href='http://fonts.googleapis.com/css?family=Lato:300,400,300,200,100italic,400italic' rel='stylesheet' type='text/css'>
+		<link href="http://fonts.googleapis.com/css?family=Roboto+Slab:300,100,400,700" rel="stylesheet" type="text/css">
+		<link href="http://fonts.googleapis.com/css?family=Roboto:300,100,400,700" rel="stylesheet" type="text/css">
+		<link href="http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,400,300,700" rel="stylesheet" type="text/css">
+		<link href="http://fonts.googleapis.com/css?family=Open+Sans+Condensed:300,700,300italic" rel="stylesheet" type="text/css">
+		<link href="http://fonts.googleapis.com/css?family=Lato:300,400,300,200,100italic,400italic" rel="stylesheet" type="text/css">
 		<!--[if lt IE 9]>
 		<script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
 		<![endif]-->	
@@ -384,14 +397,14 @@ Somos un equipo profesional, capacitado, entrenado y con experiencia en el dise√
 			<li class="item span3" data-id="id-1" data-type="development logodesign">
 				<div class="folio-img relative">
 					<div  class="hcaption clearfix relative">
-						<img id = "post1" src="img/f1.jpg" alt="sitename"/>
+						<img class = "postim" src="'.$pics[0].'" alt="sitename"/>
 						<div class="overlay myToggle" >
 							<div class="iconFolioWrapp">
 								<div class="icons-view-see">
-									<a href="img/fullscreen/default.jpg"  class=" gui4-icon icons-src" data-rel="prettyPhoto[gallery2]"></a>
+									<a href="'.$links[0].'" target="_blank" class="gui4-icon icons-src"></a>
 								</div>
 								<div class="icons-view-link">
-									<a data-rel="portfolio.html" href="#myModal" role="button" data-toggle="modal" data-gal="prettyPhoto" class="data-folio gui4-icon icons-link"></a>
+									<a target="_blank" href="'.$posts[0].'" role="button" data-toggle="modal" data-gal="prettyPhoto" class="data-folio gui4-icon icons-link"></a>
 								</div>
 							</div>
 						</div>
@@ -401,14 +414,14 @@ Somos un equipo profesional, capacitado, entrenado y con experiencia en el dise√
 			<li class="item span3" data-id="id-2" data-type="graphicdesign">
 				<div class="folio-img relative">
 					<div  class="hcaption clearfix relative">
-						<img id = "post2" src="img/f2.jpg" alt="sitename"/>
+						<img class = "postim" src="'.$pics[1].'" alt="sitename"/>
 						<div class="overlay myToggle" >
 							<div class="iconFolioWrapp">
 								<div class="icons-view-see">
-									<a href="img/fullscreen/default.jpg"  class=" gui4-icon icons-src" data-rel="prettyPhoto[gallery2]"></a>
+									<a href="'.$links[1].'"  target="_blank" class=" gui4-icon icons-src" ></a>
 								</div>
 								<div class="icons-view-link">
-									<a data-rel="portfolio.html" href="#myModal" role="button" data-toggle="modal" data-gal="prettyPhoto" class="data-folio gui4-icon icons-link"></a>
+									<a target="_blank" href="'.$posts[1].'" role="button" class="data-folio gui4-icon icons-link"></a>
 								</div>
 							</div>
 						</div>
@@ -418,14 +431,14 @@ Somos un equipo profesional, capacitado, entrenado y con experiencia en el dise√
 			<li class="item span3" data-id="id-3" data-type="webdesign">		  
 				<div class="folio-img relative">
 					<div  class="hcaption clearfix relative">
-						<img id = "post3" src="img/f3.jpg" alt="sitename"/>
+						<img class = "postim" src="'.$pics[2].'" alt="sitename"/>
 						<div class="overlay myToggle" >
 							<div class="iconFolioWrapp">
 								<div class="icons-view-see">
-									<a href="img/fullscreen/default.jpg"  class=" gui4-icon icons-src" data-rel="prettyPhoto[gallery2]"></a>
+									<a href="'.$links[2].'" target="_blank" class=" gui4-icon icons-src" ></a>
 								</div>
 								<div class="icons-view-link">
-									<a data-rel="portfolio.html" href="#myModal" role="button" data-toggle="modal" data-gal="prettyPhoto" class="data-folio gui4-icon icons-link"></a>
+									<a href="'.$posts[2].'" target="_blank" role="button" data-toggle="modal" data-gal="prettyPhoto" class="data-folio gui4-icon icons-link"></a>
 								</div>
 							</div>
 						</div>
@@ -436,14 +449,14 @@ Somos un equipo profesional, capacitado, entrenado y con experiencia en el dise√
 			<li class="item span3" data-id="id-4" data-type="logodesign">
 				<div class="folio-img relative">
 					<div  class="hcaption clearfix relative">
-						<img id = "post4" src="img/f4.jpg" alt="sitename"/>
+						<img class = "postim" src="'.$pics[3].'" alt="sitename"/>
 						<div class="overlay myToggle" >
 							<div class="iconFolioWrapp">
 								<div class="icons-view-see">
-									<a href="img/fullscreen/default.jpg"  class=" gui4-icon icons-src" data-rel="prettyPhoto[gallery2]"></a>
+									<a href="'.$links[3].'"  target="_blank" class=" gui4-icon icons-src" ></a>
 								</div>
 								<div class="icons-view-link">
-									<a data-rel="portfolio.html" href="#myModal" role="button" data-toggle="modal" data-gal="prettyPhoto" class="data-folio gui4-icon icons-link"></a>
+									<a href="'.$posts[3].'" target="_blank" role="button" data-toggle="modal" data-gal="prettyPhoto" class="data-folio gui4-icon icons-link"></a>
 								</div>
 							</div>
 						</div>
@@ -453,14 +466,14 @@ Somos un equipo profesional, capacitado, entrenado y con experiencia en el dise√
 			<li class="item span3" data-id="id-5" data-type="development">
 				<div class="folio-img relative">
 					<div  class="hcaption clearfix relative">
-						<img id = "post5" src="img/f5.jpg" alt="sitename"/>
+						<img class = "postim" src="'.$pics[4].'" alt="sitename"/>
 						<div class="overlay myToggle" >
 							<div class="iconFolioWrapp">
 								<div class="icons-view-see">
-									<a href="img/fullscreen/default.jpg"  class=" gui4-icon icons-src" data-rel="prettyPhoto[gallery2]"></a>
+									<a href="'.$links[4].'" target="_blank" class=" gui4-icon icons-src" ></a>
 								</div>
 								<div class="icons-view-link">
-									<a data-rel="portfolio.html" href="#myModal" role="button" data-toggle="modal" data-gal="prettyPhoto" class="data-folio gui4-icon icons-link"></a>
+									<a href="'.$posts[4].'" target="_blank" role="button" data-toggle="modal" data-gal="prettyPhoto" class="data-folio gui4-icon icons-link"></a>
 								</div>
 							</div>
 						</div>
@@ -470,14 +483,14 @@ Somos un equipo profesional, capacitado, entrenado y con experiencia en el dise√
 			<li class="item span3" data-id="id-6" data-type="webdesign graphicdesign">
 				<div class="folio-img relative">
 					<div  class="hcaption clearfix relative">
-						<img id = "post6" src="img/f6.jpg" alt="sitename"/>
+						<img class = "postim" src="'.$pics[5].'" alt="sitename"/>
 						<div class="overlay myToggle" >
 							<div class="iconFolioWrapp">
 								<div class="icons-view-see">
-									<a href="img/fullscreen/default.jpg"  class=" gui4-icon icons-src" data-rel="prettyPhoto[gallery2]"></a>
+									<a href="'.$links[5].'"  target="_blank" class=" gui4-icon icons-src" ></a>
 								</div>
 								<div class="icons-view-link">
-									<a data-rel="portfolio.html" href="#myModal" role="button" data-toggle="modal" data-gal="prettyPhoto" class="data-folio gui4-icon icons-link"></a>
+									<a href="'.$posts[5].'" target="_blank" role="button" data-toggle="modal" data-gal="prettyPhoto" class="data-folio gui4-icon icons-link"></a>
 								</div>
 							</div>
 						</div>
@@ -487,14 +500,14 @@ Somos un equipo profesional, capacitado, entrenado y con experiencia en el dise√
 			<li class="item span3" data-id="id-7" data-type="graphicdesign">
 				<div class="folio-img relative">
 					<div  class="hcaption clearfix relative">
-						<img id = "post7" src="img/f7.jpg" alt="sitename"/>
+						<img class = "postim" src="'.$pics[6].'" alt="sitename"/>
 						<div class="overlay myToggle" >
 							<div class="iconFolioWrapp">
 								<div class="icons-view-see">
-									<a href="img/fullscreen/default.jpg"  class=" gui4-icon icons-src" data-rel="prettyPhoto[gallery2]"></a>
+									<a href="'.$links[6].'" target="_blank" class=" gui4-icon icons-src" ></a>
 								</div>
 								<div class="icons-view-link">
-									<a data-rel="portfolio.html" href="#myModal" role="button" data-toggle="modal" data-gal="prettyPhoto" class="data-folio gui4-icon icons-link"></a>
+									<a href="'.$posts[6].'" target="_blank" role="button" data-toggle="modal" data-gal="prettyPhoto" class="data-folio gui4-icon icons-link"></a>
 								</div>
 							</div>
 						</div>
@@ -504,14 +517,14 @@ Somos un equipo profesional, capacitado, entrenado y con experiencia en el dise√
 			<li class="item span3" data-id="id-8" data-type="webdesign graphicdesign">
 				<div class="folio-img relative">
 					<div  class="hcaption clearfix relative">
-						<img id = "post8" src="img/f8.jpg" alt="sitename"/>
+						<img class = "postim" src="'.$pics[7].'" alt="sitename"/>
 						<div class="overlay myToggle" >
 							<div class="iconFolioWrapp">
 								<div class="icons-view-see">
-									<a href="img/fullscreen/default.jpg"  class=" gui4-icon icons-src" data-rel="prettyPhoto[gallery2]"></a>
+									<a href="'.$links[7].'" target="_blank" class=" gui4-icon icons-src" ></a>
 								</div>
 								<div class="icons-view-link">
-									<a data-rel="portfolio.html" href="#myModal" role="button" data-toggle="modal" data-gal="prettyPhoto" class="data-folio gui4-icon icons-link"></a>
+									<a href="'.$posts[7].'" target="_blank" role="button" data-toggle="modal" data-gal="prettyPhoto" class="data-folio gui4-icon icons-link"></a>
 								</div>
 							</div>
 						</div>
@@ -521,14 +534,14 @@ Somos un equipo profesional, capacitado, entrenado y con experiencia en el dise√
 			<li class="item span3" data-id="id-9" data-type="logodesign graphicdesign">
 				<div class="folio-img relative">
 					<div  class="hcaption clearfix relative">
-						<img id = "post9" src="img/f9.jpg" alt="sitename"/>
+						<img class = "postim" src="'.$pics[8].'" alt="sitename"/>
 						<div class="overlay myToggle" >
 							<div class="iconFolioWrapp">
 								<div class="icons-view-see">
-									<a href="img/fullscreen/default.jpg"  class=" gui4-icon icons-src" data-rel="prettyPhoto[gallery2]"></a>
+									<a href="'.$links[8].'" target="_blank"  class=" gui4-icon icons-src"></a>
 								</div>
 								<div class="icons-view-link">
-									<a data-rel="portfolio.html" href="#myModal" role="button" data-toggle="modal" data-gal="prettyPhoto" class="data-folio gui4-icon icons-link"></a>
+									<a href="'.$posts[8].'" target="_blank" role="button" data-toggle="modal" data-gal="prettyPhoto" class="data-folio gui4-icon icons-link"></a>
 								</div>
 							</div>
 						</div>
@@ -538,14 +551,14 @@ Somos un equipo profesional, capacitado, entrenado y con experiencia en el dise√
 			<li class="item span3" data-id="id-10" data-type="develpoment graphicdesign">
 				<div class="folio-img relative">
 					<div  class="hcaption clearfix relative">
-						<img id = "post10" src="img/f10.jpg" alt="sitename"/>
+						<img class = "postim" src="'.$pics[9].'" alt="sitename"/>
 						<div class="overlay myToggle" >
 							<div class="iconFolioWrapp">
 								<div class="icons-view-see">
-									<a href="img/fullscreen/default.jpg"  class=" gui4-icon icons-src" data-rel="prettyPhoto[gallery2]"></a>
+									<a href="'.$links[9].'" target="_blank"  class=" gui4-icon icons-src" ></a>
 								</div>
 								<div class="icons-view-link">
-									<a data-rel="portfolio.html" href="#myModal" role="button" data-toggle="modal" data-gal="prettyPhoto" class="data-folio gui4-icon icons-link"></a>
+									<a href="'.$links[9].'" target="_blank" role="button" data-toggle="modal" data-gal="prettyPhoto" class="data-folio gui4-icon icons-link"></a>
 								</div>
 							</div>
 						</div>
@@ -555,14 +568,14 @@ Somos un equipo profesional, capacitado, entrenado y con experiencia en el dise√
 			<li class="item span3" data-id="id-11" data-type="graphicdesign">
 				<div class="folio-img relative">
 					<div  class="hcaption clearfix relative">
-						<img id = "post11" src="img/f11.jpg" alt="sitename"/>
+						<img class = "postim" src="'.$pics[10].'" alt="sitename"/>
 						<div class="overlay myToggle" >
 							<div class="iconFolioWrapp">
 								<div class="icons-view-see">
-									<a href="img/fullscreen/default.jpg"  class=" gui4-icon icons-src" data-rel="prettyPhoto[gallery2]"></a>
+									<a href="'.$links[10].'" target="_blank"  class=" gui4-icon icons-src" ></a>
 								</div>
 								<div class="icons-view-link">
-									<a data-rel="portfolio.html" href="#myModal" role="button" data-toggle="modal" data-gal="prettyPhoto" class="data-folio gui4-icon icons-link"></a>
+									<a href="'.$posts[10].'" target="_blank" role="button" data-toggle="modal" data-gal="prettyPhoto" class="data-folio gui4-icon icons-link"></a>
 								</div>
 							</div>
 						</div>
@@ -572,14 +585,14 @@ Somos un equipo profesional, capacitado, entrenado y con experiencia en el dise√
 			<li class="item span3" data-id="id-12" data-type="logodesign">
 				<div class="folio-img relative">
 					<div  class="hcaption clearfix relative">
-						<img id = "post12" src="img/f12.jpg" alt="sitename"/>
+						<img class = "postim" src="'.$pics[11].'" alt="sitename"/>
 						<div class="overlay myToggle" >
 							<div class="iconFolioWrapp">
 								<div class="icons-view-see">
-									<a href="img/fullscreen/default.jpg"  class=" gui4-icon icons-src" data-rel="prettyPhoto[gallery2]"></a>
+									<a href="'.$links[11].'" target="_blank" class=" gui4-icon icons-src" ></a>
 								</div>
 								<div class="icons-view-link">
-									<a data-rel="portfolio.html" href="#myModal" role="button" data-toggle="modal" data-gal="prettyPhoto" class="data-folio gui4-icon icons-link"></a>
+									<a href="'.$posts[11].'" target= "_blank" role="button" data-toggle="modal" data-gal="prettyPhoto" class="data-folio gui4-icon icons-link"></a>
 								</div>
 							</div>
 						</div>
@@ -589,14 +602,14 @@ Somos un equipo profesional, capacitado, entrenado y con experiencia en el dise√
 			<li class="item span3" data-id="id-13" data-type="logodesign">
 				<div class="folio-img relative">
 					<div  class="hcaption clearfix relative">
-						<img id = "post13" src="img/f1.jpg" alt="sitename"/>
+						<img class = "postim" src="'.$pics[12].'" alt="sitename"/>
 						<div class="overlay myToggle" >
 							<div class="iconFolioWrapp">
 								<div class="icons-view-see">
-									<a href="img/fullscreen/default.jpg"  class=" gui4-icon icons-src" data-rel="prettyPhoto[gallery2]"></a>
+									<a href="'.$links[12].'" target="_blank" class=" gui4-icon icons-src" ></a>
 								</div>
 								<div class="icons-view-link">
-									<a data-rel="portfolio.html" href="#myModal" role="button" data-toggle="modal" data-gal="prettyPhoto" class="data-folio gui4-icon icons-link"></a>
+									<a href="'.$posts[12].'" target="_blank" role="button" data-toggle="modal" data-gal="prettyPhoto" class="data-folio gui4-icon icons-link"></a>
 								</div>
 							</div>
 						</div>
@@ -606,14 +619,14 @@ Somos un equipo profesional, capacitado, entrenado y con experiencia en el dise√
 			<li class="item span3" data-id="id-14" data-type="logodesign">
 				<div class="folio-img relative">
 					<div  class="hcaption clearfix relative">
-						<img id = "post14" src="img/f2.jpg" alt="sitename"/>
+						<img class = "postim" src="'.$pics[13].'" alt="sitename"/>
 						<div class="overlay myToggle" >
 							<div class="iconFolioWrapp">
 								<div class="icons-view-see">
-									<a href="img/fullscreen/default.jpg"  class=" gui4-icon icons-src" data-rel="prettyPhoto[gallery2]"></a>
+									<a href="'.$links[13].'" target="_blank" class="gui4-icon icons-src" ></a>
 								</div>
 								<div class="icons-view-link">
-									<a data-rel="portfolio.html" href="#myModal" role="button" data-toggle="modal" data-gal="prettyPhoto" class="data-folio gui4-icon icons-link"></a>
+									<a href="'.$posts[13].'" target="_blank" role="button" data-toggle="modal" data-gal="prettyPhoto" class="data-folio gui4-icon icons-link"></a>
 								</div>
 							</div>
 						</div>
@@ -693,7 +706,7 @@ Somos un equipo profesional, capacitado, entrenado y con experiencia en el dise√
 					<div class="span3">
 						<div class="col">
 							<div class="teamDet clearfix">
-								<img src="http://placehold.it/252x192" alt="t1">
+								<img src="http://placehold.it/252x191" alt="t1">
 							</div>
 							<div class="teamDet-Desc">
 								<h4>Luis Carlos Tovar</h4>
@@ -978,7 +991,7 @@ Modal
                                     </li>
                                     <li>&nbsp;|&nbsp;</li>
                                     <li>
-                                        <a class="comment-reply-link pull-left" href="#reply" onclick='return addComment.moveForm("comment-2", "2", "respond", "189")'>Reply</a>		
+                                        <a class="comment-reply-link pull-left" href="#reply" onclick="return addComment.moveForm("comment-2", "2", "respond", "189")">Reply</a>		
                                     </li>
                                                     
                                 </ul><!-- .comment-meta .commentmetadata -->	
@@ -1003,7 +1016,7 @@ Modal
                                     </li>
                                     <li>&nbsp;|&nbsp;</li>
                                     <li>
-                                        <a class="comment-reply-link pull-left" href="#reply" onclick='return addComment.moveForm("comment-2", "2", "respond", "189")'>Reply</a>		
+                                        <a class="comment-reply-link pull-left" href="#reply" onclick="return addComment.moveForm("comment-2", "2", "respond", "189")">Reply</a>		
                                     </li>
                                                     
                                 </ul><!-- .comment-meta .commentmetadata -->	
@@ -1031,7 +1044,7 @@ Modal
                                     </li>
                                     <li>&nbsp;|&nbsp;</li>
                                     <li>
-                                        <a class="comment-reply-link pull-left" href="#reply" onclick='return addComment.moveForm("comment-2", "2", "respond", "189")'>Reply</a>		
+                                        <a class="comment-reply-link pull-left" href="#reply" onclick="return addComment.moveForm("comment-2", "2", "respond", "189")">Reply</a>		
                                     </li>
                                                     
                                 </ul><!-- .comment-meta .commentmetadata -->	
@@ -1068,7 +1081,7 @@ Modal
                         
                         <form class="cmxform" id="commentForm" method="get" action="#">
                           <fieldset>
-                            <!-- <legend>Please provide your name, email address (won't be published) and a comment</legend> -->
+                            <!-- <legend>Please provide your name, email address (won"t be published) and a comment</legend> -->
                             <p>
                               
                               <input id="cnamePage" name="name" type="text" placeholder="Nombre" required/>
@@ -1273,7 +1286,7 @@ Modal
 								<form action="#" class="clearfix cmxform" id="form-contact">
 									
 									<fieldset>
-									<!-- <legend>Please provide your name, email address (won't be published) and a comment</legend> -->
+									<!-- <legend>Please provide your name, email address (won"t be published) and a comment</legend> -->
 									<p>
 									  
 									  <input id="cname" name="name" type="text" placeholder="Nombre" required />
@@ -1329,14 +1342,12 @@ Modal
 <script type="text/javascript" src="js/doubletaptogo.min.js"></script>
 <script type="text/javascript" src="js/jquery.validate.min.js"></script>
 <script type="text/javascript" src="js/jquery.minicolors.js"></script>
-
 <script type="text/javascript" src="js/css3-mediaqueries.js"></script>
 <script type="text/javascript" src="js/jquery.mousewheel.js"></script>
 <script type="text/javascript" src="js/jquery.jscrollpane.min.js"></script>
 <script type="text/javascript" src="js/jquery.nav.js"></script>
 <script type="text/javascript" src="js/jquery.scrollTo.js"></script>
-<script type="text/javascript">jQuery(".flexnav").flexNav({'animationSpeed': 150});</script>
-
+<script type="text/javascript">jQuery(".flexnav").flexNav({"animationSpeed": 150});</script>
 </body>
-
-</html>
+</html>'
+?>
